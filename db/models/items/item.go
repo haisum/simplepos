@@ -33,7 +33,7 @@ type Criteria struct{
 // List filters out items
 func List(c Criteria) ([]Item, error){
 	list := []Item{}
-	ds := goqu.From("Item")
+	ds := db.Get().From("Item")
 	if c.ID != 0 {
 		ds = ds.Where(goqu.I("ID").Eq(c.ID))
 	}
@@ -58,6 +58,9 @@ func Add(items []Item) (int64, error) {
 		}
 	}
 	rs, err := db.Get().From("Item").Insert(items).Exec()
+	if err != nil {
+		return 0, errors.Wrap(err, "Error in inserting records")
+	}
 	affected, _ := rs.RowsAffected()
 	return affected, errors.Wrap(err, "Error in inserting records")
 }
