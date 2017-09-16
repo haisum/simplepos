@@ -9,6 +9,7 @@ import (
 	"github.com/gorilla/handlers"
 	"os"
 	"net/http"
+	"github.com/haisum/simplepos/request/items"
 )
 
 
@@ -45,7 +46,8 @@ func main() {
 	}
 
 	r := mux.NewRouter()
-	//r.Handle("/item", handlers.MethodHandler{"GET": item.ListHandler})
+	//Item handlers
+	r.Handle("/items", handlers.MethodHandler{"GET": items.List, "DELETE": items.Delete, "POST": items.Add, "PUT": items.Update})
 
 	static := http.FileServer(http.Dir("./static/"))
 	r.PathPrefix("/").Handler(static)
