@@ -3,15 +3,14 @@ package main
 import (
 	"fmt"
 	log "github.com/Sirupsen/logrus"
-	"github.com/haisum/simplepos/db"
-	"github.com/spf13/viper"
-	"github.com/gorilla/mux"
 	"github.com/gorilla/handlers"
-	"os"
-	"net/http"
+	"github.com/gorilla/mux"
+	"github.com/haisum/simplepos/db"
 	"github.com/haisum/simplepos/request/items"
+	"github.com/spf13/viper"
+	"net/http"
+	"os"
 )
-
 
 func init() {
 	viper.SetDefault("HTTP_PORT", 8443)
@@ -51,7 +50,6 @@ func main() {
 
 	static := http.FileServer(http.Dir("./static/"))
 	r.PathPrefix("/").Handler(static)
-
 
 	log.Infof("Listening for requests on port %d", viper.GetInt("HTTP_PORT"))
 	log.Fatal(http.ListenAndServeTLS(fmt.Sprintf("%s:%d", viper.GetString("HTTP_HOST"), viper.GetInt("HTTP_PORT")), viper.GetString("HTTP_CERTFILE"), viper.GetString("HTTP_KEYFILE"), handlers.CombinedLoggingHandler(os.Stdout, r)))

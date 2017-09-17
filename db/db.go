@@ -1,31 +1,31 @@
 package db
 
 import (
+	"bitbucket.org/codefreak/hsmpp/smpp/stringutils"
 	"database/sql"
 	log "github.com/Sirupsen/logrus"
-	_ "github.com/mattn/go-sqlite3"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
-	_ "gopkg.in/doug-martin/goqu.v4/adapters/sqlite3"
+	_ "github.com/mattn/go-sqlite3"
+	"github.com/pkg/errors"
+	"gopkg.in/DATA-DOG/go-sqlmock.v1"
+	"gopkg.in/doug-martin/goqu.v4"
 	_ "gopkg.in/doug-martin/goqu.v4/adapters/mysql"
 	_ "gopkg.in/doug-martin/goqu.v4/adapters/postgres"
-	"gopkg.in/doug-martin/goqu.v4"
+	_ "gopkg.in/doug-martin/goqu.v4/adapters/sqlite3"
 	"io/ioutil"
-	"bitbucket.org/codefreak/hsmpp/smpp/stringutils"
 	"strings"
-	"github.com/pkg/errors"
 	"testing"
-	"gopkg.in/DATA-DOG/go-sqlmock.v1"
 )
 
 var (
 	database *goqu.Database
-	driver string
+	driver   string
 )
 
 const (
 	validationQuery = "select MIN(id) from Item"
-	SQLFilesPath           = "./sqls"
+	SQLFilesPath    = "./sqls"
 )
 
 //CheckAndCreateDB Checks if database exists, if not, creates one with basic tables, admin user and indexes
@@ -90,9 +90,8 @@ func create(db *goqu.Database) error {
 	replacer := strings.NewReplacer("\n", "", "\r", "")
 	_, err = db.Exec(replacer.Replace(query))
 	if err != nil {
-		err = errors.Wrapf(err,"Couldn't load file %s", fileName)
+		err = errors.Wrapf(err, "Couldn't load file %s", fileName)
 		return err
 	}
 	return err
 }
-

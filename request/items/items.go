@@ -1,16 +1,16 @@
 package items
 
 import (
-	"net/http"
 	"encoding/json"
 	"fmt"
 	"github.com/haisum/simplepos/db/models/items"
 	"github.com/haisum/simplepos/request"
 	"github.com/haisum/simplepos/stringutils"
+	"net/http"
 )
 
 //List handler lists/filters items based on some criteria
-var List = http.HandlerFunc(func (w http.ResponseWriter, r *http.Request){
+var List = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	var criteria items.Criteria
 	err := request.Decode(r, w, &criteria)
 	if err != nil {
@@ -22,9 +22,9 @@ var List = http.HandlerFunc(func (w http.ResponseWriter, r *http.Request){
 		return
 	}
 	response := map[string]interface{}{
-		"Items" : itemList,
-		"Ok" : err == nil,
-		"Error" : err,
+		"Items": itemList,
+		"Ok":    err == nil,
+		"Error": err,
 	}
 	jsonResp, err := json.Marshal(response)
 	if err != nil {
@@ -35,7 +35,7 @@ var List = http.HandlerFunc(func (w http.ResponseWriter, r *http.Request){
 })
 
 //Update handler updates Items
-var Update = http.HandlerFunc(func (w http.ResponseWriter, r *http.Request){
+var Update = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	var itemList []items.Item
 	err := request.Decode(r, w, &itemList)
 	if err != nil {
@@ -47,9 +47,9 @@ var Update = http.HandlerFunc(func (w http.ResponseWriter, r *http.Request){
 		return
 	}
 	response := map[string]interface{}{
-		"Affected" : affected,
-		"Ok" : err == nil,
-		"Error" : err,
+		"Affected": affected,
+		"Ok":       err == nil,
+		"Error":    err,
 	}
 	jsonResp, err := json.Marshal(response)
 	if err != nil {
@@ -60,7 +60,7 @@ var Update = http.HandlerFunc(func (w http.ResponseWriter, r *http.Request){
 })
 
 //Add handler adds one or more Items
-var Add = http.HandlerFunc(func (w http.ResponseWriter, r *http.Request){
+var Add = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	var itemList []items.Item
 	err := request.Decode(r, w, &itemList)
 	if err != nil {
@@ -72,9 +72,9 @@ var Add = http.HandlerFunc(func (w http.ResponseWriter, r *http.Request){
 		return
 	}
 	response := map[string]interface{}{
-		"Affected" : affected,
-		"Ok" : err == nil,
-		"Error" : err,
+		"Affected": affected,
+		"Ok":       err == nil,
+		"Error":    err,
 	}
 	jsonResp, err := json.Marshal(response)
 	if err != nil {
@@ -85,7 +85,7 @@ var Add = http.HandlerFunc(func (w http.ResponseWriter, r *http.Request){
 })
 
 //Delete handler deletes one or more Items
-var Delete = http.HandlerFunc(func (w http.ResponseWriter, r *http.Request){
+var Delete = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	var ids []int64
 	err := request.Decode(r, w, &ids)
 	if err != nil {
@@ -97,9 +97,9 @@ var Delete = http.HandlerFunc(func (w http.ResponseWriter, r *http.Request){
 		return
 	}
 	response := map[string]interface{}{
-		"Affected" : affected,
-		"Ok" : err == nil,
-		"Error" : err,
+		"Affected": affected,
+		"Ok":       err == nil,
+		"Error":    err,
 	}
 	jsonResp, err := json.Marshal(response)
 	if err != nil {

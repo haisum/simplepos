@@ -2,12 +2,12 @@ package request
 
 import (
 	"encoding/json"
-	"net/http"
-	"log"
 	"github.com/pkg/errors"
+	"log"
+	"net/http"
 )
 
-func Decode(r *http.Request, w http.ResponseWriter, v interface{}) error{
+func Decode(r *http.Request, w http.ResponseWriter, v interface{}) error {
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(v)
 	if err != nil {
@@ -17,7 +17,7 @@ func Decode(r *http.Request, w http.ResponseWriter, v interface{}) error{
 	return nil
 }
 
-func RespondWithError(w http.ResponseWriter, err error, message string, code int){
+func RespondWithError(w http.ResponseWriter, err error, message string, code int) {
 	log.Printf("%+v", errors.Wrap(err, message))
 	http.Error(w, message, code)
 }

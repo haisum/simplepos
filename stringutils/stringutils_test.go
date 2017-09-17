@@ -8,4 +8,3 @@ func TestByteToString(t *testing.T) {
 		t.Errorf("Got %s, Expected %s", ByteToString(b), "hello world")
 	}
 }
-
