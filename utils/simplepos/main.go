@@ -48,8 +48,8 @@ func main() {
 	//Item handlers
 	r.Handle("/items", handlers.MethodHandler{"GET": items.List, "DELETE": items.Delete, "POST": items.Add, "PUT": items.Update})
 
-	static := http.FileServer(http.Dir("./static/"))
-	r.PathPrefix("/").Handler(static)
+	frontend := http.FileServer(http.Dir("./frontend/dist/"))
+	r.PathPrefix("/").Handler(frontend)
 
 	log.Infof("Listening for requests on port %d", viper.GetInt("HTTP_PORT"))
 	log.Fatal(http.ListenAndServeTLS(fmt.Sprintf("%s:%d", viper.GetString("HTTP_HOST"), viper.GetInt("HTTP_PORT")), viper.GetString("HTTP_CERTFILE"), viper.GetString("HTTP_KEYFILE"), handlers.CombinedLoggingHandler(os.Stdout, r)))
